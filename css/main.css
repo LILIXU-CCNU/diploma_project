@@ -1,9 +1,13 @@
-header {
-  background-color: green;
-  height: 10%;
+html, body, #mapid {
+  height: 100%;
+  margin: 0px;
 }
 
-body {
-  margin: 0;
-  padding: 0;
+.leaflet-control-geosearch.bar form {
+  position: absolute;
+  left: -430px;
+}
+
+.pad {
+  padding-left: 20px;
 }
