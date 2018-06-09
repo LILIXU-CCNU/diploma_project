@@ -1,3 +1,5 @@
+var elements_on_map;
+
 document.addEventListener('DOMContentLoaded', function() {
   const provider = new window.GeoSearch.OpenStreetMapProvider(); //Search Provider
   const searchControl = new window.GeoSearch.GeoSearchControl({
@@ -72,11 +74,18 @@ document.addEventListener('DOMContentLoaded', function() {
     drawnItems.addLayer(layer);
     console.log('draw:created->');
     console.log(JSON.stringify(layer.toGeoJSON()));
+    var layer_items = drawnItems.getLayers();
+    if (layer_items.length == 0) 
+      elements_on_map = false;
+    else elements_on_map = true;
   });
 
   //Slide menu 
-  var left = "<p> Добро пожаловать!<br>  </p>";
-  var contents = "<form action=\"\" method=\"POST\">";
+  var left = "<div class=\"form-check\">";
+  left += "<h3 class=\"form-check-label\"> Добро пожаловать!<br>  </h3>";
+  left += "</div>";
+  // var contents = "<form action=\"\" method=\"POST\">";
+  var contents = "<form onSubmit=\"formValidation();\">";
   contents += "<div class=\"form-check\">";
   contents += "<label class=\"form-check-label\">Выберите спутники:</label><br>";
   contents += "<input type=\"checkbox\" name=\"landsat5\" value=\"landsat5\">Landsat 5<br>";
@@ -109,14 +118,13 @@ document.addEventListener('DOMContentLoaded', function() {
     icon: 'fa-chevron-right'
   }).addTo(map);
   slideMenu.setContents(left + contents);
-  
-  var answer = CheckLayers(drawnItems);
-  console.log(answer);
 });
 
-function CheckLayers(drawnItems){
-  var layer_items = drawnItems.getLayers();
-  if (layer_items.length == 0)
-    return false;
-  return true;
+function formValidation(){
+  if (elements_on_map == true){
+    alert("Запрос отправлен!");
+    return true;
+  }
+  else alert("Выделите территорию для исследований!");
+  return false;
 }
